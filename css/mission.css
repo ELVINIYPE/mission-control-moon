@@ -1,0 +1,160 @@
+/* mission.css — missions: menu, HUD, StarHunter, Apollo 11+ */
+#mis { position: fixed; inset: 0; z-index: 9; }
+#mis[hidden] { display: none; }
+#mis > canvas { position: absolute; inset: 0; display: block; }
+#msLabels, #msUI { position: absolute; inset: 0; pointer-events: none; }
+#msUI button, #msUI input, #msUI .msPanel, #msUI .mCard, #msUI .msBox { pointer-events: auto; }
+
+/* ---- mission menu ---- */
+.mHead { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); text-align: center; width: min(900px, 92vw); }
+.mHead h2 { margin: 2px 0; font-size: clamp(28px, 3.6vw, 44px); }
+.mHead p { margin: 0; color: #c9d6ea; font-size: 17px; }
+.mGrid { position: absolute; left: 50%; top: 150px; transform: translateX(-50%); width: min(1180px, 94vw); display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; perspective: 900px; }
+.mCard { position: relative; font: inherit; color: #eef3fb; text-align: center; cursor: pointer; border-radius: 20px; padding: 16px 12px 14px; border: 1px solid #2c3b5a;
+  background: linear-gradient(160deg, rgba(30,45,90,.85), rgba(10,16,34,.9)); box-shadow: 0 10px 30px rgba(0,0,0,.45); transition: transform .25s, box-shadow .25s, border-color .25s; transform-style: preserve-3d; min-height: 190px; }
+.mCard:hover { transform: rotateX(6deg) translateY(-6px) scale(1.03); box-shadow: 0 18px 40px rgba(0,0,0,.6), 0 0 0 1px #7fd4ff; }
+.mCard .ico { font-size: 48px; display: block; transform: translateZ(30px); filter: drop-shadow(0 6px 8px rgba(0,0,0,.5)); }
+.mCard b { display: block; font-size: 20px; margin: 6px 0 2px; } .mCard .stars { color: var(--gold); letter-spacing: 2px; }
+.mCard small { display: block; color: #9fb0c8; font-size: 14px; line-height: 1.3; margin-top: 4px; }
+.mCard .tag { position: absolute; top: 10px; right: 10px; font-size: 11px; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 999px; background: #1f6fd6; }
+.mCard.star { border: 2px solid var(--gold); background: linear-gradient(160deg, rgba(90,60,10,.85), rgba(16,14,30,.92)); }
+.mCard.star .tag { background: var(--gold); color: #2a1a00; }
+.mCard.soon { opacity: .62; } .mCard.soon .tag { background: #3a4560; } .mCard.locked { opacity: .5; } .mCard.locked .tag { background: #7a2a2a; }
+.mFoot { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; }
+
+/* ---- HUD ---- */
+#msHUD { position: absolute; inset: 0; pointer-events: none; }
+#msHUD[hidden] { display: none; }
+.msTop { position: absolute; top: 8px; left: 10px; right: 10px; display: flex; gap: 10px; align-items: center; }
+.msName { font-weight: 700; font-size: 18px; background: rgba(5,7,15,.75); border: 1px solid #2c3b5a; border-radius: 12px; padding: 6px 12px; white-space: nowrap; }
+.msSteps { flex: 1; display: flex; gap: 3px; overflow: hidden; background: rgba(5,7,15,.6); border-radius: 999px; padding: 4px; }
+.msSteps span { flex: 1; text-align: center; font-size: 12px; font-weight: 700; padding: 4px 4px; border-radius: 999px; color: #6c7a92; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.msSteps span.done { color: #7dffb5; } .msSteps span.on { background: var(--gold); color: #1b1404; }
+.msStats { display: flex; gap: 8px; align-items: center; background: rgba(5,7,15,.75); border: 1px solid #2c3b5a; border-radius: 12px; padding: 5px 12px; }
+.msPts { font-size: 20px; font-weight: 700; color: var(--gold); } .msPts.pop { animation: ptsPop .6s; } .msPts.neg { animation: ptsNeg .6s; }
+@keyframes ptsPop { 40% { transform: scale(1.35); color: #7dffb5; } } @keyframes ptsNeg { 40% { transform: scale(1.2); color: #ff8a8a; } }
+.msLives { display: flex; align-items: flex-end; gap: 6px; } .msLives .bars { display: flex; gap: 2px; align-items: flex-end; height: 20px; } .msLives i { width: 5px; border-radius: 2px; }
+.msLives small { color: #9fb0c8; font-size: 12px; }
+.msSpeed { position: absolute; left: 12px; top: 64px; background: rgba(5,7,15,.82); border: 1px solid #2a5a8a; border-radius: 14px; padding: 8px 14px; text-align: center; min-width: 120px; }
+.msSpeed small { display: block; color: #7fd4ff; font-size: 11px; font-weight: 700; letter-spacing: 1px; } .msSpeed b { font-size: 28px; font-variant-numeric: tabular-nums; }
+.msRight { position: absolute; right: 10px; top: 60px; bottom: 170px; width: 190px; display: flex; flex-direction: column; gap: 8px; pointer-events: auto; overflow: hidden; }
+.msTube { background: rgba(5,7,15,.82); border: 1px solid #6b5520; border-radius: 14px; padding: 8px; text-align: center; }
+.msTube[hidden] { display: none; }
+.msTube small { display: block; color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+.tube { position: relative; width: 52px; height: 96px; margin: 6px auto; border-radius: 29px / 10px; overflow: hidden;
+  background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.25) 30%, rgba(255,255,255,.05) 60%, rgba(255,255,255,.15)); border: 2px solid rgba(255,255,255,.35); }
+.tube i { position: absolute; left: 0; right: 0; bottom: 0; transition: height .8s; background: linear-gradient(90deg, #8a5a0a, #ffe39a 35%, #f0b93a 60%, #8a5a0a); box-shadow: inset 0 6px 8px -4px #fff4c2; }
+.tube span { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); font-size: 13px; font-weight: 700; text-shadow: 0 1px 3px #000; }
+.msTube.low .tube { border-color: #e05050; animation: lowPulse 1s infinite; } @keyframes lowPulse { 50% { box-shadow: 0 0 14px #e05050; } }
+.msWeights { background: rgba(5,7,15,.85); border: 1px solid #2a5a8a; border-radius: 14px; padding: 8px 10px; font-size: 12.5px; overflow-y: auto; }
+.msWeights[hidden] { display: none; }
+.msWeights small { display: block; color: var(--glow); font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; font-size: 11px; }
+.msWeights div > div, .msWeights .tot { display: flex; justify-content: space-between; gap: 6px; padding: 2px 0; border-bottom: 1px dashed #24304a; }
+.msWeights .fresh { animation: fresh 1.2s; } @keyframes fresh { 0% { background: rgba(127,212,255,.4); } }
+.msWeights .tot { border: 0; margin-top: 4px; font-size: 14px; color: var(--gold); }
+.msInfos { display: flex; flex-direction: column; gap: 6px; }
+.msInfo { font: inherit; font-size: 13px; font-weight: 700; text-align: left; color: #fff; background: linear-gradient(90deg, #4a2a8a, #2a1a5a); border: 1px solid #8a5cd6; border-radius: 10px; padding: 7px 9px; cursor: pointer; animation: infoIn .5s; }
+.msInfo:hover { filter: brightness(1.25); } @keyframes infoIn { from { transform: translateX(40px); opacity: 0; } }
+.msSH { position: absolute; left: 6px; bottom: 6px; width: 120px; height: 150px; cursor: pointer; pointer-events: auto; transition: transform .2s; filter: drop-shadow(0 6px 10px rgba(0,0,0,.6)); }
+.msSH:hover { transform: scale(1.08) rotate(-3deg); } .msSH.angry { animation: shake .4s 3; } .msSH.happy { animation: hop .5s 2; }
+@keyframes shake { 25% { transform: translateX(-5px) rotate(-4deg); } 75% { transform: translateX(5px) rotate(4deg); } } @keyframes hop { 50% { transform: translateY(-10px); } }
+.msSay { position: absolute; left: 8px; bottom: 162px; width: 212px; max-width: 212px; font-size: 14.5px !important; background: #fff; color: #10182a; font-size: 16px; line-height: 1.4; padding: 10px 14px; border-radius: 14px; opacity: 0; transform: translateY(10px); transition: all .3s; pointer-events: none; }
+.msSay.show { opacity: 1; transform: none; } .msSay b { color: #1f6fd6; } .msSay.angry, .msSay.sad { border: 3px solid #e05050; } .msSay.happy { border: 3px solid #2fbf71; }
+.msSay:after { content: ""; position: absolute; left: 40px; bottom: -10px; border: 10px solid transparent; border-top-color: #fff; border-bottom: 0; }
+#msToast { position: absolute; left: 50%; top: 62px; transform: translate(-50%, -20px); opacity: 0; background: #12301f; border: 1px solid var(--go); padding: 9px 16px; border-radius: 12px; font-weight: 700; transition: all .3s; pointer-events: none; z-index: 5; }
+#msToast.show { opacity: 1; transform: translate(-50%, 0); } #msToast.bad { background: #3a1414; border-color: #e05050; }
+.msModal { position: absolute; inset: 0; background: rgba(1,3,10,.6); display: grid; place-items: center; z-index: 30; padding: 16px; }
+.msModal[hidden] { display: none; } .msModal .card { max-width: 680px; animation: pop .3s; } .msModal h2 { margin-top: 0; } .msModal p, .msModal li { font-size: 17px; line-height: 1.5; color: #dbe6f6; }
+.msModal .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.msModal canvas { width: 100%; height: auto; border-radius: 12px; background: #050816; }
+
+/* step panel */
+.msPanel { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); width: min(1000px, calc(100vw - 480px)); background: rgba(8,14,30,.86); border: 1px solid #2c3b5a; border-radius: 16px; padding: 9px 14px; backdrop-filter: blur(6px); max-height: 34vh; overflow-y: auto; }
+.msPanel.mini { max-height: 46px; overflow: hidden; }
+.msPanel .pTog { position: absolute; right: 10px; top: 8px; font: inherit; font-size: 12px; font-weight: 700; color: #9fb0c8; background: #141d33; border: 1px solid #2c3b5a; border-radius: 8px; padding: 2px 8px; cursor: pointer; }
+.msPanel .pick { padding: 6px 9px; flex-basis: 140px; } .msPanel .pick b { font-size: 14px; } .msPanel .pick small { font-size: 12px; } .msPanel .pick .pi { font-size: 18px; }
+.msTest { font: inherit; font-size: 11px; font-weight: 700; margin-top: 4px; color: #b9f5d0; background: #12301f; border: 1px dashed #2fbf71; border-radius: 8px; padding: 3px 6px; cursor: pointer; width: 100%; }
+.msPanel h3 { margin: 0 0 2px; font-size: 19px; padding-right: 60px; } .msPanel p.lead { margin: 0 0 6px; color: #c9d6ea; font-size: 14.5px; }
+.msPanel .lcRow { margin-top: 6px; } .msPanel .row { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; margin-top: 10px; }
+.pick.bad { border-color: #e05050; background: #2a1414; } .pick.good { border-color: #2fbf71; background: #10301f; }
+.pick .price { float: right; color: var(--gold); font-size: 12px; font-weight: 700; }
+.msBig { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); text-align: center; font-size: clamp(30px, 5vw, 64px); font-weight: 700; text-shadow: 0 4px 20px #000; pointer-events: none; }
+.objList { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; margin: 6px 0; }
+.objList div { background: #141d33; border: 1px solid #2c3b5a; border-radius: 12px; padding: 8px 10px; font-size: 15px; } .objList div b { display: block; }
+.splitLbl { position: absolute; top: 70px; width: 50%; text-align: center; font-size: 22px; font-weight: 700; pointer-events: none; }
+.wIn { width: 70px; font: inherit; font-size: 15px; padding: 4px 6px; border-radius: 8px; border: 1px solid #2c3b5a; background: #0d1424; color: #fff; }
+@media (max-width: 1100px) { .msPanel { width: calc(100vw - 250px); left: auto; right: 205px; transform: none; } }
+@media (max-width: 900px) { .mGrid { grid-template-columns: repeat(2, 1fr); top: 120px; bottom: 70px; overflow-y: auto; } .msRight { width: 130px; } .msPanel { width: calc(100vw - 24px); bottom: 160px; right: 12px; } .msSteps { display: none; } }
+
+.acLbl.chat { white-space: normal; width: max-content; max-width: 230px; background: #fff; color: #10182a; border: 0; font-size: 14px; padding: 6px 10px; border-radius: 12px; transform: translate(-50%, -100%); }
+.acLbl.chat b { color: #e8590c; }
+.acLbl.stage{border-left:4px solid var(--glow,#ffd27a);font-weight:700;letter-spacing:.5px}
+.acLbl.red{background:rgba(120,10,10,.85);border-color:#ff6b6b}
+.acLbl.green{background:rgba(10,80,40,.85);border-color:#4ade80}
+.msPanel .lcRow.cmp { flex-wrap: wrap; gap: 6px; }
+.msPanel .lcRow.cmp .pick { flex: 1 1 120px; padding: 5px 8px; } .msPanel .lcRow.cmp .pick b { font-size: 13px; display: block; } .msPanel .lcRow.cmp .pick small { font-size: 11px; }
+.acLbl.stage { transform: translate(0, -50%); }
+.acLbl.stage::before { content: "◀ "; color: var(--glow, #7fd4ff); font-size: 10px; }
+.acLbl.lft { transform: translate(-100%, -50%); }
+/* ---- Part B: flight ---- */
+#flChat { position: absolute; left: 12px; top: 175px; width: 300px; display: flex; flex-direction: column; gap: 6px; pointer-events: none; z-index: 5; }
+.flMsg { background: rgba(255,255,255,.94); color: #10182a; border-radius: 12px; padding: 6px 10px; font-size: 13px; box-shadow: 0 4px 14px rgba(0,0,0,.35); animation: flIn .3s ease; }
+@keyframes flIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: none; } }
+.pick.pulseB { animation: pulseB .8s ease-in-out infinite; border-color: #ffd27a !important; }
+@keyframes pulseB { 0%,100% { box-shadow: 0 0 0 0 rgba(255,210,122,.0); } 50% { box-shadow: 0 0 0 5px rgba(255,210,122,.55); background: #3a2f12; } }
+
+/* ---- Part B v2: poll cards, banner, 2D orbit view, fades, TLI bar ---- */
+#fl2d { display: none; width: 100%; height: 100%; }
+#flFade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity .45s ease; z-index: 1; }
+#flFade.on { opacity: 1; }
+#flCard { position: absolute; left: 50%; top: 92px; transform: translate(-50%, -30px) scale(.9); opacity: 0; transition: all .35s cubic-bezier(.2,1.4,.4,1); display: flex; align-items: center; gap: 16px;
+  background: rgba(8,14,30,.92); border: 2px solid #2c3b5a; border-radius: 20px; padding: 14px 20px; min-width: 460px; box-shadow: 0 12px 40px rgba(0,0,0,.5); }
+#flCard.in { opacity: 1; transform: translate(-50%, 0) scale(1); }
+#flCard .fcIco { font-size: 54px; } #flCard .fcTxt { flex: 1; display: flex; flex-direction: column; } #flCard small { color: #7fd4ff; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 12px; }
+#flCard b { font-size: 30px; color: #fff; } #flCard span { color: #cfe0ff; font-size: 14px; }
+#flCard .fcGo { font-size: 26px; font-weight: 900; padding: 12px 22px; border-radius: 14px; background: #1e2a44; color: #50607e; border: 2px solid #33415f; transition: all .2s; }
+#flCard .fcGo.lit { background: #20c06a; color: #fff; border-color: #7dffb5; box-shadow: 0 0 26px rgba(47,191,113,.85); transform: scale(1.08); }
+.pick.pollChip.asking { animation: pollBlink .45s ease-in-out infinite alternate; border-color: #ffd27a !important; }
+@keyframes pollBlink { from { background: #1a2340; } to { background: #4a3a10; box-shadow: 0 0 14px rgba(255,210,122,.7); } }
+#flBanner { position: absolute; left: 50%; top: 96px; transform: translate(-50%, -20px); opacity: 0; transition: all .35s; background: rgba(8,14,30,.9); border: 2px solid #ffd27a; color: #fff;
+  font-size: 22px; text-align: center; padding: 12px 22px; border-radius: 16px; box-shadow: 0 0 30px rgba(255,210,122,.35); max-width: 760px; }
+#flBanner.in { opacity: 1; transform: translate(-50%, 0); } #flBanner b { color: #ffd27a; font-size: 26px; }
+.tliBar { margin: 6px 0 2px; } .tliTrack { position: relative; height: 26px; border-radius: 10px; overflow: hidden; }
+.tliTrack .z { position: absolute; top: 0; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
+.tliTrack .z.bad { background: linear-gradient(#7a2626, #5a1a1a); } .tliTrack .z.good { background: linear-gradient(#1f8a52, #156b3e); }
+.tliBar input[type=range] { width: 100%; margin: 4px 0 0; accent-color: #ffd27a; height: 22px; }
+.tliTicks { display: flex; justify-content: space-between; font-size: 11px; color: #9fb0c8; }
+
+/* ---- the 2D orbit game inside the 3D game ---- */
+#fl2dFrame { position: absolute; left: 0; right: 0; top: 56px; bottom: 0; width: 100%; height: calc(100% - 56px); border: 0; display: none; background: #03050d; }
+#mis.mode2d #msRight, #mis.mode2d .msSH, #mis.mode2d .msSay, #mis.mode2d #msSpeed, #mis.mode2d #flChat { display: none !important; }
+#flBanner small { font-size: 14px; color: #cfe0ff; }
+#flFade { z-index: 50; }
+#msAlt { white-space: nowrap; }
+
+/* Go/No-Go poll: same look as the 2D game */
+#flPollBox.poll { position: absolute; top: 70px; left: 16px; width: min(360px, 40%); pointer-events: none; }
+#flPollBox .poll-title { background: rgba(0,0,0,.72); color: #fff; padding: 8px 14px; border-radius: 10px; font-weight: 800; margin-bottom: 6px; text-align: center; }
+#flPollBox .poll-row { display: flex; justify-content: space-between; background: rgba(0,0,0,.62); color: #fff; padding: 4px 14px; border-radius: 8px; margin: 3px 0; font-family: ui-monospace, monospace; font-size: 17px; animation: flIn .2s; }
+#flPollBox .go-tag { color: #3ecf8e; }
+
+.msInfo.kepBox { background: linear-gradient(135deg,#1f8a52,#156b3e) !important; border-color: #7dffb5 !important; animation: pulseB 1s ease-in-out infinite; font-weight: 800; }
+.moFlash { position: absolute; inset: 0; background: #fff; opacity: .9; pointer-events: none; animation: moFl .5s forwards; z-index: 40; } @keyframes moFl { to { opacity: 0; } }
+
+#tecTitle { position: absolute; left: 50%; top: 66px; transform: translateX(-50%); font-size: 34px; font-weight: 900; letter-spacing: 3px; color: #fff; text-shadow: 0 0 18px rgba(127,212,255,.8); text-align: center; pointer-events: none; }
+#tecTitle small { display: block; font-size: 14px; letter-spacing: 1px; color: #9fc3ff; font-weight: 600; }
+
+.holdBtn { touch-action: none; user-select: none; -webkit-user-select: none; } .holdBtn.off { opacity: .45; filter: grayscale(.6); }
+#testBar { position: fixed; left: 10px; bottom: 10px; z-index: 30; display: flex; gap: 6px; align-items: center; background: rgba(8,14,30,.85); border: 1px dashed #7dffb5; border-radius: 12px; padding: 6px 8px; font: 600 13px system-ui; color: #7dffb5; }
+#testBar button { background: #1f8a52; color: #fff; border: 0; border-radius: 8px; padding: 6px 10px; font: 700 13px system-ui; cursor: pointer; }
+body:has(#mis:not([hidden])) #testBar { display: none; }
+
+/* Part C: instructions in the left corner so the 3D scene stays visible */
+body.flSide .msPanel { left: 12px; right: auto; top: 275px; bottom: auto; transform: none; width: 360px; max-height: calc(100vh - 420px); min-height: 110px; }
+body.flSide .msPanel h3 { font-size: 17px; } body.flSide .msPanel p.lead { font-size: 13.5px; }
+body.flSide .msPanel .pick { flex-basis: 100%; } body.flSide .msPanel .lcRow { flex-wrap: wrap; } body.flSide .msPanel .row { justify-content: flex-start; }
+body.flSide #flChat { top: 165px; }
+/* Part C: banners go to the bottom-right corner so they never cover the Moon or the spacecraft */
+body.flSide #flBanner { left: auto; right: 14px; top: auto; bottom: 18px; width: 340px; transform: translate(0, 20px); font-size: 15px; padding: 10px 14px; text-align: left; }
+body.flSide #flBanner.in { transform: translate(0, 0); }
+body.flSide #flBanner b { font-size: 17px; } body.flSide #flBanner small { font-size: 12.5px; }

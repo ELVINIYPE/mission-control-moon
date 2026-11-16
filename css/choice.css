@@ -1,0 +1,16 @@
+/* choice.css — Part 3: Play the mission / Training Academy */
+#p3 { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+#p3[hidden] { display: none; }
+#p3 .btn { pointer-events: auto; }
+.chTop { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); text-align: center; width: min(760px, calc(100vw - 32px)); background: rgba(5,7,15,.7); border-radius: 14px; padding: 6px 14px; }
+.chTop h2 { margin: 2px 0; font-size: clamp(24px, 3vw, 36px); } .chTop .lead { font-size: 16px; margin: 0 0 4px; }
+.chBtns { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; width: calc(100vw - 32px); }
+.chBtns .btn.start { animation: none; }
+.chBtns .btn.academy { background: linear-gradient(180deg, #4aa8ff, #1f6fd6); box-shadow: 0 6px 0 #124a8f, 0 0 30px rgba(80,170,255,.45); font-size: 22px; padding: 14px 26px; }
+.chBubble { position: absolute; transform: translate(-50%, -100%); background: #fff; color: #10182a; font-weight: 700; font-size: 16px; padding: 10px 14px; border-radius: 14px; max-width: 280px; opacity: 0; transition: opacity .3s; text-align: center; }
+.chBubble.show { opacity: 1; }
+.chBubble:after { content: ""; position: absolute; left: 50%; bottom: -10px; margin-left: -10px; border: 10px solid transparent; border-top-color: #fff; border-bottom: 0; }
+.chBubble .who { color: #e8590c; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+.chBubble .wave { display: inline-block; opacity: .3; }
+.chBubble.talking .wave { opacity: 1; animation: wave .5s infinite alternate; }
+@keyframes wave { to { transform: scale(1.35); } }

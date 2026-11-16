@@ -1,0 +1,69 @@
+/* players.css — Part 2: players, avatars, crewmates, Mission Control room */
+#p2 { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 16px; overflow: auto; }
+#p2[hidden], #room[hidden] { display: none !important; }
+#p2.roomUI { display: block; padding: 0; pointer-events: none; }
+#p2.roomUI .btn, #p2.roomUI .seat { pointer-events: auto; }
+.panel { background: rgba(8, 14, 30, 0.86); border: 1px solid #2c3b5a; border-radius: 20px; padding: 24px; backdrop-filter: blur(6px); max-width: 1000px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.panel h2 { font-size: clamp(26px, 3.4vw, 38px); margin: 4px 0 8px; }
+.lead { color: #d6e2f3; font-size: 18px; line-height: 1.45; margin: 0 0 16px; }
+.lead small { color: var(--muted); }
+.note { color: var(--muted); font-size: 14px; margin: 10px 0; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.row.end { justify-content: space-between; }
+.btn.go { background: linear-gradient(180deg, #34d27f, #1f9a58); box-shadow: 0 5px 0 #146b3c; }
+.btn:disabled { opacity: .45; cursor: default; transform: none; }
+.btn.small { font-size: 15px; padding: 8px 14px; }
+/* A. player count */
+.pcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.pcard { font: inherit; color: var(--ink); text-align: left; background: #111a30; border: 2px solid #2c3b5a; border-radius: 16px; padding: 16px; cursor: pointer; transition: transform .15s, border-color .15s; }
+.pcard:hover { transform: translateY(-4px); border-color: var(--gold); }
+.pnum { font-size: 54px; font-weight: 700; color: var(--gold); line-height: 1; }
+.pfaces { font-size: 22px; margin: 6px 0; letter-spacing: 2px; }
+.pcard b { font-size: 20px; } .pcard p { margin: 6px 0 0; color: var(--muted); font-size: 15px; line-height: 1.4; }
+/* B. avatar maker */
+.panel.av { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
+.avRight { position: relative; min-height: 380px; border-radius: 16px; background: radial-gradient(circle at 50% 40%, #1b2c55, #060a16 70%); overflow: hidden; }
+#avCanvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
+.spinHint { position: absolute; bottom: 8px; width: 100%; text-align: center; color: var(--muted); font-size: 13px; pointer-events: none; }
+.lbl2 { display: block; font-weight: 700; margin: 8px 0; }
+.lbl2 input { display: block; width: 100%; margin-top: 6px; font: inherit; font-size: 20px; padding: 10px 14px; border-radius: 12px; border: 2px solid #2c3b5a; background: #0b1224; color: #fff; }
+.lbl2 input:focus { outline: none; border-color: var(--gold); }
+.shake { animation: shake .4s; border-color: #ff5c6c !important; }
+@keyframes shake { 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+.opt { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+.opt span { color: var(--muted); font-size: 14px; min-width: 70px; }
+.sw { width: 32px; height: 32px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; }
+.sw.on { border-color: var(--gold); box-shadow: 0 0 0 2px #000 inset; }
+.chipb { font-size: 20px; background: #111a30; border: 2px solid #2c3b5a; border-radius: 10px; padding: 4px 10px; cursor: pointer; }
+.chipb.on { border-color: var(--gold); }
+.card.cam { max-width: 640px; text-align: center; }
+.camBox { position: relative; border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 16 / 9; }
+.camBox video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+.oval { position: absolute; left: 50%; top: 50%; height: 80%; aspect-ratio: 768 / 1000; transform: translate(-50%, -50%); border: 4px dashed var(--gold); border-radius: 50%; box-shadow: 0 0 0 999px rgba(0,0,0,0.45); }
+/* C. crewmates */
+.mcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.mcard { position: relative; background: #111a30; border: 2px solid #2c3b5a; border-radius: 16px; padding: 14px; cursor: pointer; transition: border-color .15s, transform .15s; }
+.mcard:hover { transform: translateY(-3px); } .mcard.on { border-color: var(--go); background: #10241c; }
+.mcard img { width: 90px; height: 117px; object-fit: contain; display: block; margin: 0 auto 6px; background: radial-gradient(circle, #24365e, transparent 70%); border-radius: 50%; }
+.mcard .check { position: absolute; top: 10px; right: 12px; font-size: 22px; }
+.mcard > b { display: block; font-size: 20px; text-align: center; } .spec { display: block; text-align: center; color: var(--gold); font-size: 14px; margin-bottom: 8px; }
+.hero { background: #0a1122; border-radius: 12px; padding: 10px 12px; font-size: 14px; }
+.hero .ht { color: var(--glow); font-size: 12px; font-weight: 700; letter-spacing: .5px; }
+.hero b { display: block; font-size: 17px; } .hero i { color: var(--muted); }
+.hero ul { margin: 6px 0 0; padding-left: 18px; line-height: 1.4; }
+/* D. room */
+#room { position: fixed; inset: 0; } #room canvas { display: block; }
+.roomTop { position: absolute; top: 8px; z-index: 2; background: rgba(5,7,15,.7); border-radius: 14px; padding: 6px 12px; left: 50%; transform: translateX(-50%); text-align: center; width: min(760px, calc(100vw - 32px)); }
+.roomTop h2 { margin: 2px 0; font-size: clamp(24px, 3vw, 34px); } .roomTop .lead { font-size: 16px; }
+.seat { position: absolute; transform: translate(-50%, -100%); background: rgba(8,14,30,.85); border: 1px solid #2c3b5a; border-radius: 12px; padding: 6px 8px; text-align: center; min-width: 120px; max-width: 200px; font-size: 14px; }
+.seat b { display: block; font-size: 15px; }
+.badges { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin: 4px 0 6px; }
+.badge { font-size: 12px; background: #1d2a46; border-radius: 999px; padding: 2px 8px; } .badge.ai { background: #2a2346; color: #cdbbff; }
+.status { font-size: 14px; color: var(--muted); } .status.ok { color: #3ecf8e; font-weight: 700; }
+.bubble3d { position: absolute; transform: translate(-50%, -100%); background: #fff; color: #10182a; font-weight: 700; font-size: 15px; padding: 10px 14px; border-radius: 14px; max-width: 260px; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.bubble3d.show { opacity: 1; }
+.bubble3d:after { content: ""; position: absolute; left: 50%; bottom: -10px; margin-left: -10px; border: 10px solid transparent; border-top-color: #fff; border-bottom: 0; }
+.roomBack { position: absolute; left: 16px; bottom: 16px; }
+@media (max-width: 760px) { .panel.av { grid-template-columns: 1fr; } .avRight { min-height: 300px; order: -1; } .seat { min-width: 110px; font-size: 13px; } }
+.seat .btn { display: block; margin: 6px auto 0; position: relative; color: #fff !important; text-shadow: 0 1px 0 #0a4a28; }
+.seat .badges { position: relative; }

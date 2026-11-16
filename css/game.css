@@ -1,0 +1,63 @@
+/* game.css — Mission Control: Moon 3D */
+:root { --ink: #eef3fb; --muted: #9fb0c8; --glow: #7fd4ff; --gold: #ffd27a; --go: #2fbf71; --panel: rgba(8, 14, 30, 0.72); }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #02030a; color: var(--ink); font-family: "Saira Semi Condensed", system-ui, sans-serif; }
+#stage { position: fixed; inset: 0; }
+#stage canvas { display: block; }
+.loading { position: fixed; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 20px; }
+
+/* ---------- intro overlay ---------- */
+#intro { position: fixed; inset: 0; pointer-events: none; }
+#intro:before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(2,3,10,0.85) 0%, rgba(2,3,10,0.55) 32%, rgba(2,3,10,0) 55%); }
+#introUI { position: absolute; left: clamp(16px, 5vw, 70px); top: 50%; transform: translateY(-55%); max-width: min(520px, calc(100vw - 32px)); pointer-events: auto; transition: opacity .6s, transform .6s; }
+#introUI.leaving { opacity: 0; transform: translateY(-55%) translateX(-40px); pointer-events: none; }
+.kicker { color: var(--glow); letter-spacing: 3px; font-weight: 700; font-size: 14px; text-transform: uppercase; }
+.title { font-size: clamp(40px, 7vw, 84px); line-height: 0.95; margin: 6px 0 12px; font-weight: 700; letter-spacing: 1px;
+  background: linear-gradient(180deg, #ffffff, #b9d4ff); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 40px rgba(127, 212, 255, 0.25); }
+.title span { display: block; color: var(--gold); -webkit-text-fill-color: var(--gold); }
+.tagline { font-size: clamp(17px, 2vw, 21px); line-height: 1.45; color: #d6e2f3; margin: 0 0 18px; }
+.steps { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.chip { background: var(--panel); border: 1px solid #2c3b5a; border-radius: 999px; padding: 6px 12px; font-size: 15px; font-weight: 600; backdrop-filter: blur(4px); }
+.chip b { color: var(--gold); }
+.arrow { color: var(--muted); align-self: center; }
+.btns { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn { font: inherit; font-weight: 700; border: 0; border-radius: 14px; cursor: pointer; color: #fff; padding: 12px 22px; font-size: 18px; transition: transform .15s; }
+.btn:hover { transform: translateY(-2px); }
+.btn.start { background: linear-gradient(180deg, #ff9a3d, #e8590c); font-size: 24px; padding: 16px 30px; box-shadow: 0 6px 0 #9a3a06, 0 0 30px rgba(255, 140, 50, 0.45); animation: pulse 2.2s infinite; }
+.btn.ghost { background: var(--panel); border: 1px solid #2c3b5a; }
+@keyframes pulse { 50% { box-shadow: 0 6px 0 #9a3a06, 0 0 50px rgba(255, 140, 50, 0.8); } }
+.meta { margin-top: 18px; color: var(--muted); font-size: 15px; }
+.meta b { color: var(--ink); }
+
+.lbl { position: absolute; transform: translate(-50%, -50%); font-weight: 700; font-size: 15px; padding: 2px 10px; border-radius: 8px; background: rgba(2, 6, 18, 0.65); border: 1px solid #2c3b5a; white-space: nowrap; pointer-events: none; }
+.lbl.ship { color: var(--gold); border-color: #6b5520; font-size: 13px; }
+.lbl.dist { color: var(--muted); font-weight: 600; font-size: 13px; border-style: dashed; }
+#bubble { position: absolute; right: clamp(16px, 6vw, 110px); top: 22%; max-width: 280px; background: #fff; color: #10182a; font-weight: 700; font-size: 17px; padding: 12px 16px; border-radius: 16px;
+  opacity: 0; transform: scale(.7); transition: all .35s; pointer-events: none; }
+#bubble.show { opacity: 1; transform: scale(1); }
+#bubble:after { content: ""; position: absolute; left: 30px; bottom: -12px; border: 12px solid transparent; border-top-color: #fff; border-bottom: 0; }
+#fact { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); max-width: min(760px, calc(100vw - 32px)); text-align: center; font-size: 16px; color: #dbe6f6;
+  background: var(--panel); border: 1px solid #2c3b5a; border-radius: 12px; padding: 8px 16px; opacity: 0; transition: opacity .4s; }
+#fact.show { opacity: 1; }
+#fact:before { content: "DID YOU KNOW?  "; color: var(--glow); font-weight: 700; font-size: 12px; letter-spacing: 1px; }
+#btnSound { position: fixed; top: 14px; right: 14px; width: 46px; height: 46px; border-radius: 50%; border: 1px solid #2c3b5a; background: var(--panel); color: #fff; font-size: 20px; cursor: pointer; pointer-events: auto; z-index: 5; }
+.footnote { position: absolute; right: 14px; bottom: 8px; font-size: 11px; color: #6c7a92; }
+
+/* how-to-play modal */
+.modal { position: fixed; inset: 0; background: rgba(1, 3, 10, 0.75); display: grid; place-items: center; z-index: 20; pointer-events: auto; padding: 16px; }
+.modal[hidden] { display: none; }
+.card { background: #0d1424; border: 1px solid #2c3b5a; border-radius: 18px; padding: 22px; max-width: 760px; width: 100%; max-height: 90vh; overflow: auto; }
+.card h2 { margin: 0 0 12px; font-size: 28px; }
+.how { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.how div { background: #141d33; border-radius: 14px; padding: 14px; }
+.how .ico { font-size: 34px; } .how b { display: block; font-size: 18px; margin: 4px 0; } .how p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.4; }
+#toast { position: fixed; left: 50%; top: 20px; transform: translate(-50%, -80px); background: #12301f; border: 1px solid var(--go); padding: 12px 18px; border-radius: 12px; font-weight: 700; transition: transform .4s; z-index: 30; }
+#toast.show { transform: translate(-50%, 0); }
+@media (max-width: 700px) {
+  #introUI { top: auto; bottom: 70px; transform: none; }
+  #introUI.leaving { transform: translateX(-40px); }
+  #bubble { top: 70px; right: 16px; font-size: 15px; max-width: 220px; }
+  .steps { display: none; }
+  #fact, .footnote, .lbl.dist, .lbl.ship, #lblEarth { display: none !important; }
+  #intro:before { background: linear-gradient(0deg, rgba(2,3,10,0.92) 0%, rgba(2,3,10,0.7) 45%, rgba(2,3,10,0) 70%); }
+}
