@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission Control: Moon (2D orbits)</title>
+  <style>body{background:#03050d}</style>
+  <link rel="stylesheet" href="style.css?v=20">
+</head>
+<body>
+  <!-- HUD: money + mass, always on top -->
+  <header id="hud" class="hidden">
+    <div class="hud-item">💰 <b id="hudMoney">$5.0B</b>
+      <div class="meter"><div id="hudMoneyBar"></div></div>
+    </div>
+    <div class="hud-item">⚖️ <b id="hudMass">0 t</b></div>
+    <div class="hud-item" id="hudGoal"></div>
+  </header>
+
+  <!-- Every screen is drawn into here by game.js -->
+  <main id="app"></main>
+
+  <!-- Character speech bubble -->
+  <div id="bubble" class="hidden">
+    <div id="bubbleFace"></div>
+    <div id="bubbleText"></div>
+  </div>
+
+  <!-- Pop-up card for events -->
+  <div id="modal" class="hidden"><div id="modalBox"></div></div>
+
+  <!-- Sound on/off button -->
+  <button id="muteBtn" onclick="this.textContent = sfx.toggle() ? '🔇' : '🔊'">🔊</button>
+
+  <script src="sound.js?v=20"></script>
+  <script src="game.js?v=20"></script>
+  <script src="assembly.js?v=20"></script>
+  <script src="flight.js?v=21"></script>
+  <script src="launchday.js?v=20"></script>
+  <script src="space.js?v=20"></script>
+  <script src="moon.js?v=20"></script>
+  <script src="artemis.js?v=20"></script>
+  <script src="cb-logic.js?v=20"></script>
+  <script src="cb-view.js?v=20"></script>
+  <script src="bridge.js?v=8"></script>
+</body>
+</html>
