@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mission Control: Moon</title>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/players.css">
+<link rel="stylesheet" href="css/choice.css">
+<link rel="stylesheet" href="css/academy.css">
+<link rel="stylesheet" href="css/mission.css">
+</head>
+<body>
+<div id="stage"></div>
+<div class="loading" id="loading">Loading space… 🚀 (needs internet the first time)</div>
+
+<!-- ===== PART 1: opening screen ===== -->
+<div id="intro" hidden>
+  <div class="lbl" id="lblEarth">🌍 Earth</div>
+  <div class="lbl" id="lblMoon">🌙 Moon</div>
+  <div class="lbl ship" id="lblShip">Your spacecraft</div>
+  <div class="lbl dist" id="lblDist">↔ about 384,400 km away</div>
+  <div id="bubble"></div>
+
+  <div id="introUI">
+    <div class="kicker">NASA Space Apps 2026 · Space Mission Design Game</div>
+    <h1 class="title">Mission Control: <span>MOON</span></h1>
+    <p class="tagline">Plan a <b>real</b> trip to the Moon. Choose your rocket, launch it, land on the Moon and bring your crew home safely, using real NASA science.</p>
+    <div class="steps">
+      <span class="chip">🛠️ <b>1</b> Design</span><span class="arrow">→</span>
+      <span class="chip">🚀 <b>2</b> Launch</span><span class="arrow">→</span>
+      <span class="chip">🌙 <b>3</b> Land</span><span class="arrow">→</span>
+      <span class="chip">🏠 <b>4</b> Come home</span>
+    </div>
+    <div class="btns">
+      <button class="btn start" id="btnStart">▶ START MISSION</button>
+      <button class="btn ghost" id="btnHow">❓ How to play</button>
+      <button class="btn go" id="btnDemo">🎬 Demo</button>
+    </div>
+    <div class="meta">👩‍🚀 <b>1 to 4 players</b> · 💰 <b>$5 billion</b> budget · 🎓 real numbers from Apollo</div>
+  </div>
+  <div id="fact"></div>
+  <div class="footnote">Earth and Moon not to scale · drag your mouse to look around</div>
+</div>
+<button id="btnSound" title="Sound on/off">🔊</button>
+
+<div class="modal" id="howModal" hidden>
+  <div class="card">
+    <h2>❓ How to play</h2>
+    <div class="how">
+      <div><div class="ico">👩‍🚀</div><b>1. Pick your crew</b><p>Play alone or with up to 4 friends. Each player gets a job, like real Mission Control.</p></div>
+      <div><div class="ico">🛠️</div><b>2. Design the mission</b><p>Choose a rocket and spacecraft. Too heavy and it won't fly; too big and you waste money!</p></div>
+      <div><div class="ico">🚀</div><b>3. Fly it</b><p>Launch, aim for where the Moon WILL be, and slow down to land softly.</p></div>
+      <div><div class="ico">🏠</div><b>4. Come home</b><p>Bring everyone home safe. Then see WHY your mission worked or failed.</p></div>
+    </div>
+    <button class="btn start" id="howClose" style="animation:none">Got it! 👍</button>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/core.js"></script>
+<script src="js/elvin-face-data.js"></script>
+<script src="js/astronaut3d.js"></script>
+<script src="js/intro.js"></script>
+<script src="js/faces.js"></script>
+<script src="js/players.js"></script>
+<script src="js/choice.js"></script>
+<script src="js/academy.js"></script>
+<script src="js/lessons/kit.js"></script>
+<script src="js/lessons/track-rockets.js"></script>
+<script src="js/lessons/track-orbits.js"></script>
+<script src="js/lessons/track-moon.js"></script>
+<script src="js/lessons/track-systems.js"></script>
+<script src="js/lessons/track-humans.js"></script>
+<script src="js/lessons/track-design.js"></script>
+<script src="js/lessons/m16-power.js"></script>
+<script src="js/lessons/m17-comms.js"></script>
+<script src="js/lessons/m21-suit.js"></script>
+<script src="js/mission/models.js"></script>
+<script src="js/mission/core.js"></script>
+<script src="js/mission/select.js"></script>
+<script src="js/mission/apollo-a.js"></script>
+<script src="js/mission/apollo-b.js"></script>
+<script src="js/mission/apollo-flight.js"></script>
+<script src="js/mission/apollo-moonorb3d.js"></script>
+<script src="js/mission/apollo-moon3d.js"></script>
+<script src="js/mission/apollo-moonwalk.js"></script>
+<script src="js/mission/apollo-home3d.js"></script>
+<script src="js/mission/apollo-reentry3d.js"></script>
+<script>
+  if (typeof THREE === "undefined") document.getElementById("loading").textContent = "3D could not load. Please check your internet connection and refresh.";
+  else {
+    document.getElementById("loading").remove();
+    // shortcuts for demos: index.html#academy opens the Academy, #academy-21 opens lesson 21
+    const m = location.hash.match(/^#academy(?:-(\d+))?$/);
+    const ms = location.hash.match(/^#(missions|apollo)$/);
+    if (m) showScreen("academy", m[1] ? +m[1] : undefined); else if (ms) showScreen(ms[1] === "apollo" ? "apollo" : "design"); else showScreen("intro");
+  }
+</script>
+</body>
+</html>
